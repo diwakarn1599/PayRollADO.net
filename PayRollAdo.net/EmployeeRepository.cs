@@ -71,6 +71,43 @@ namespace PayRollAdo.net
 
         }
 
+        public void UpdateSalary()
+        {
+            try
+            {
+                //Object for employee class
+                EmployeeModel model = new EmployeeModel();
+
+                //Qurey to retreive data
+                string query = "UPDATE employee_payroll set BasicPay=30000 WHERE name='Diwakar';";
+                SqlCommand command = new SqlCommand(query, connection);
+                //Open Connection
+                this.connection.Open();
+                //Returns numbers of rows updated
+                int result = command.ExecuteNonQuery();
+                //Check Result set is greater or equal to 1
+                if (result>=1)
+                {
+                    Console.WriteLine("Updated");
+                   
+                }
+                else
+                {
+                    Console.WriteLine("Not Updated");
+                }
+                
+            }
+            catch (Exception ex)
+            {
+                //handle exception
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                //close connection
+                connection.Close();
+            }
+        }
 
     }
 }
