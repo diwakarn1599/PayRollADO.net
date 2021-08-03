@@ -7,6 +7,8 @@ namespace PayRollAdo.net
         static void Main(string[] args)
         {
             Console.WriteLine("PayRoll ADO .net");
+            EmployeeRepository repository = new EmployeeRepository();
+            repository.RetriveAllEmployeeData();
         }
     }
 }
