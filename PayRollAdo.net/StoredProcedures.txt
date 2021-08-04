@@ -8,3 +8,13 @@ AS
 BEGIN
 UPDATE employee_payroll SET BasicPay=@Base_pay WHERE empId=@id AND name=@name
 END;
+
+////retrive using name
+CREATE PROCEDURE dbo.retriveBasedOnName
+	@name varchar(30)
+
+AS
+BEGIN
+SELECT * FROM employee_payroll WHERE name=@name
+END;
+

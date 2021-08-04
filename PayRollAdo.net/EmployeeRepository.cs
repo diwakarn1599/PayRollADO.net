@@ -33,20 +33,8 @@ namespace PayRollAdo.net
                     //Parse untill  rows are null
                     while (result.Read())
                     {
-                        model.empId = Convert.ToInt32(result["empId"]);
-                        model.name = Convert.ToString(result["name"]);
-                        model.basicPay = Convert.ToDouble(result["BasicPay"]);
-                        model.startDate = (DateTime)result["startDate"];
-                        model.emailId = Convert.ToString(result["emailId"]);
-                        model.gender = Convert.ToChar(result["Gender"]);
-                        model.department = Convert.ToString(result["Department"]);
-                        model.phoneNumber = Convert.ToInt64(result["PhoneNumber"]);
-                        model.address = Convert.ToString(result["Address"]);
-                        model.deductions = Convert.ToDouble(result["Deductions"]);
-                        model.taxablePay = Convert.ToDouble(result["TaxablePay"]);
-                        model.incomeTax = Convert.ToDouble(result["IncomeTax"]);
-                        model.netPay = Convert.ToDouble(result["NetPay"]);
-                        Console.WriteLine($"{model.empId},{model.name},{model.basicPay},{model.startDate},{model.emailId},{model.gender},{model.department},{model.phoneNumber},{model.address},{model.deductions},{model.taxablePay},{model.incomeTax},{model.netPay}");
+                        //Print deatials that are retrived
+                        PrintDetails(result, model);
 
                     }
                     output = "Success";
@@ -73,6 +61,7 @@ namespace PayRollAdo.net
 
         }
 
+        //Method to update salary
         public string UpdateSalary(EmployeeModel model)
         {
             string output = string.Empty;
@@ -112,7 +101,7 @@ namespace PayRollAdo.net
 
         }
 
-
+        //Method to update salary using stored procedures
         public string UpdateSalaryUsingStoredProcedure(EmployeeModel model)
         {
             string output = string.Empty;
@@ -156,6 +145,130 @@ namespace PayRollAdo.net
                 //closing the connection
                 connection.Close();
             }
+        }
+
+        /// <summary>
+        /// Retrive data based on paryicular name
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public string RetreiveDataBasedOnName(EmployeeModel model)
+        {
+            string output = string.Empty;
+            try
+            {
+                using (this.connection)
+                {
+                    //sqlCommand initialised using stored procedure
+                    SqlCommand command = new SqlCommand("dbo.retriveBasedOnName", connection);
+                    //seeting command type to stored procedure
+                    command.CommandType = CommandType.StoredProcedure;
+                    //add parameters to stored procedures
+                    command.Parameters.AddWithValue("@name", model.name);
+                    //open the connection
+                    connection.Open();
+                    //Sql data reader- using execute reader returns object for resultset
+                    SqlDataReader result = command.ExecuteReader();
+
+                    //checking result set has rows are not
+                    if (result.HasRows)
+                    {
+                        while (result.Read())
+                        {
+                            //Print deatials that are retrived
+                            PrintDetails(result, model);
+                        }
+                        //close the reader object
+                        result.Close();
+                    }
+                    output = "Success";
+                }
+            }
+            catch(Exception ex)
+            {
+
+                Console.WriteLine(ex.Message);
+                output = "Unsuccessfull";
+            }
+            finally
+            {
+                //close the connection
+                connection.Close();
+            }
+            return output;
+        }
+
+        /// <summary>
+        /// Retrive based on range
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public string RetriveDataBasedOnRange(EmployeeModel model)
+        {
+            string output = string.Empty;
+            try
+            {
+                using (this.connection)
+                {
+                    string query = @"SELECT * FROM employee_payroll WHERE startDate BETWEEN ('2016-05-01') and getdate()";
+                    //sqlCommand initialised 
+                    SqlCommand command = new SqlCommand(query, connection);
+                    
+                    //open the connection
+                    connection.Open();
+                    //Sql data reader- using execute reader returns object for resultset
+                    SqlDataReader result = command.ExecuteReader();
+
+                    //checking result set has rows are not
+                    if (result.HasRows)
+                    {
+                        while (result.Read())
+                        {
+                            //Print deatials that are retrived
+                            PrintDetails(result, model);
+                        }
+                        //close the reader object
+                        result.Close();
+                    }
+                    output = "Success";
+                }
+            }
+            catch (Exception ex)
+            {
+
+                Console.WriteLine(ex.Message);
+                output = "Unsuccessfull";
+            }
+            finally
+            {
+                //close the connection
+                connection.Close();
+            }
+            return output;
+        }
+
+        /// <summary>
+        /// Print details
+        /// </summary>
+        /// <param name="result"></param>
+        /// <param name="model"></param>
+        public void PrintDetails(SqlDataReader result , EmployeeModel model)
+        {
+            //reatreive adata and print details
+            model.empId = Convert.ToInt32(result["empId"]);
+            model.name = Convert.ToString(result["name"]);
+            model.basicPay = Convert.ToDouble(result["BasicPay"]);
+            model.startDate = (DateTime)result["startDate"];
+            model.emailId = Convert.ToString(result["emailId"]);
+            model.gender = Convert.ToChar(result["Gender"]);
+            model.department = Convert.ToString(result["Department"]);
+            model.phoneNumber = Convert.ToInt64(result["PhoneNumber"]);
+            model.address = Convert.ToString(result["Address"]);
+            model.deductions = Convert.ToDouble(result["Deductions"]);
+            model.taxablePay = Convert.ToDouble(result["TaxablePay"]);
+            model.incomeTax = Convert.ToDouble(result["IncomeTax"]);
+            model.netPay = Convert.ToDouble(result["NetPay"]);
+            Console.WriteLine($"{model.empId},{model.name},{model.basicPay},{model.startDate},{model.emailId},{model.gender},{model.department},{model.phoneNumber},{model.address},{model.deductions},{model.taxablePay},{model.incomeTax},{model.netPay}\n");
         }
     }
 }
