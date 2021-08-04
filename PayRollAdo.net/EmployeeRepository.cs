@@ -122,12 +122,15 @@ namespace PayRollAdo.net
                 {
                     //sqlcommand object with stored procedure - dbo.UpdateDetails
                     SqlCommand command = new SqlCommand("dbo.UpdateDetails", connection);
+                    //Setting command type
                     command.CommandType = CommandType.StoredProcedure;
+                    //Adding values to stored procedures parameters
                     command.Parameters.AddWithValue("@id", model.empId);
                     command.Parameters.AddWithValue("@name", model.name);
                     command.Parameters.AddWithValue("@Base_pay", model.basicPay);
-
+                    // Opening connection 
                     connection.Open();
+                    //Executing using non query returns number of rows affected
                     int res = command.ExecuteNonQuery();
 
                     if (res >= 1)
@@ -150,6 +153,7 @@ namespace PayRollAdo.net
             }
             finally
             {
+                //closing the connection
                 connection.Close();
             }
         }

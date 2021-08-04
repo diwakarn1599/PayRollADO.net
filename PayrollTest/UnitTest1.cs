@@ -22,9 +22,11 @@ namespace PayrollTest
             try
             {
                 string actual, expected;
+                //Setting values to model object
                 model.empId = 1;
                 model.name = "Diwakar";
                 model.basicPay = 75000;
+                //Expected
                 expected = "Updated 1 rows";
                 actual = repository.UpdateSalaryUsingStoredProcedure(model);
                 Assert.AreEqual(actual, expected);
