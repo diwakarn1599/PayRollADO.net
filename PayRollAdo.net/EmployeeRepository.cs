@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Text;
 
 namespace PayRollAdo.net
 {
-    class EmployeeRepository
+    public class EmployeeRepository
     {
         //Connection String
         public static string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog =Payroll_Services ; Integrated Security = True;";
@@ -14,14 +15,12 @@ namespace PayRollAdo.net
         SqlConnection connection = new SqlConnection(connectionString);
 
         //RetriveAllData
-        public void RetriveAllEmployeeData()
+        public string RetriveAllEmployeeData(EmployeeModel model)
         {
+            string output = string.Empty;
             try
             {
-                //Object for employee class
-                EmployeeModel model = new EmployeeModel();
-
-                //Qurey to retreive data
+               //Qurey to retreive data
                 string query = "SELECT * FROM employee_payroll";
                 SqlCommand command = new SqlCommand(query, connection);
                 //Open Connection
@@ -50,10 +49,12 @@ namespace PayRollAdo.net
                         Console.WriteLine($"{model.empId},{model.name},{model.basicPay},{model.startDate},{model.emailId},{model.gender},{model.department},{model.phoneNumber},{model.address},{model.deductions},{model.taxablePay},{model.incomeTax},{model.netPay}");
 
                     }
+                    output = "Success";
                 }
                 else
                 {
-                    Console.WriteLine("No Records in the table");
+                    //Console.WriteLine("No Records in the table");
+                    output = "Success";
                 }
                 //close result set
                 result.Close();
@@ -68,16 +69,15 @@ namespace PayRollAdo.net
                 //close connection
                 connection.Close();
             }
+            return output;
 
         }
 
-        public void UpdateSalary()
+        public string UpdateSalary(EmployeeModel model)
         {
+            string output = string.Empty;
             try
             {
-                //Object for employee class
-                EmployeeModel model = new EmployeeModel();
-
                 //Qurey to retreive data
                 string query = "UPDATE employee_payroll set BasicPay=30000 WHERE name='Diwakar';";
                 SqlCommand command = new SqlCommand(query, connection);
@@ -88,26 +88,70 @@ namespace PayRollAdo.net
                 //Check Result set is greater or equal to 1
                 if (result>=1)
                 {
-                    Console.WriteLine("Updated");
+                    output="Updated";
                    
                 }
                 else
                 {
-                    Console.WriteLine("Not Updated");
+                    output="Not Updated";
                 }
                 
             }
             catch (Exception ex)
             {
                 //handle exception
-                Console.WriteLine(ex.Message);
+                //Console.WriteLine(ex.Message);
+                output = ex.Message;
             }
             finally
             {
                 //close connection
                 connection.Close();
             }
+            return output;
+
         }
 
+
+        public string UpdateSalaryUsingStoredProcedure(EmployeeModel model)
+        {
+            string output = string.Empty;
+            try
+            {
+                using(this.connection)
+                {
+                    //sqlcommand object with stored procedure - dbo.UpdateDetails
+                    SqlCommand command = new SqlCommand("dbo.UpdateDetails", connection);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@id", model.empId);
+                    command.Parameters.AddWithValue("@name", model.name);
+                    command.Parameters.AddWithValue("@Base_pay", model.basicPay);
+
+                    connection.Open();
+                    int res = command.ExecuteNonQuery();
+
+                    if (res >= 1)
+                    {
+                        output = $"Updated {res} rows";
+
+                    }
+                    else
+                    {
+                        output = "Not Updated";
+                    }
+
+                }
+                return output;
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return output;
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
     }
 }

@@ -1,0 +1,10 @@
+//To update table
+CREATE PROCEDURE dbo.UpdateDetails
+	@id int,
+	@name varchar(50),
+	@Base_pay float
+
+AS
+BEGIN
+UPDATE employee_payroll SET BasicPay=@Base_pay WHERE empId=@id AND name=@name
+END;

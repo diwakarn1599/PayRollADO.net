@@ -4,7 +4,7 @@ using System.Text;
 
 namespace PayRollAdo.net
 {
-    class EmployeeModel
+    public class EmployeeModel
     {
         public int empId { get; set; }
         public string name { get; set; }
