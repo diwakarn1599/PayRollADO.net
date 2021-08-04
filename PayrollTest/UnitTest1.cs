@@ -83,5 +83,43 @@ namespace PayrollTest
             }
 
         }
+        /// <summary>
+        /// Test method for aggregate functions group by male 
+        /// </summary>
+        [TestMethod]
+        public void TestForAggregateFunctionsMale()
+        {
+            try
+            {
+                string actual, expected;
+                expected = $"Total Salary = 177000\n Max Salary = 75000\n Min Salary = 30000\n Avg Salary = 42250\n Gender = M \n Count = 4\n";
+                actual = repository.AggregateFunctions("M");
+                Assert.AreEqual(actual, expected);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+        }
+        /// <summary>
+        /// Test method for aggregate functions group by female 
+        /// </summary>
+        [TestMethod]
+        public void TestForAggregateFunctionsFemale()
+        {
+            try
+            {
+                string actual, expected;
+                expected = $"Total Salary = 10000\n Max Salary = 10000\n Min Salary = 10000\n Avg Salary = 10000\n Gender = F \n Count = 1\n";
+                actual = repository.AggregateFunctions("F");
+                Assert.AreEqual(actual, expected);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+        }
     }
 }

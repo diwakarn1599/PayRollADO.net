@@ -270,5 +270,51 @@ namespace PayRollAdo.net
             model.netPay = Convert.ToDouble(result["NetPay"]);
             Console.WriteLine($"{model.empId},{model.name},{model.basicPay},{model.startDate},{model.emailId},{model.gender},{model.department},{model.phoneNumber},{model.address},{model.deductions},{model.taxablePay},{model.incomeTax},{model.netPay}\n");
         }
+
+
+        public string AggregateFunctions(String gen)
+        {
+            string output = string.Empty;
+            try
+            {
+                using (this.connection)
+                {
+                    string query = @$"SELECT SUM(BasicPay),MAX(BasicPay),MIN(BasicPay),AVG(BasicPay),Gender,COUNT(*) FROM employee_payroll WHERE Gender ='{gen}' GROUP BY Gender";
+                    //sqlCommand initialised 
+                    SqlCommand command = new SqlCommand(query, connection);
+
+                    //open the connection
+                    connection.Open();
+                    //Sql data reader- using execute reader returns object for resultset
+                    SqlDataReader result = command.ExecuteReader();
+
+                    //checking result set has rows are not
+                    if (result.HasRows)
+                    {
+                        while (result.Read())
+                        {
+                            Console.WriteLine($"Total Salary = {result[0]}\n Max Salary = {result[1]}\n Min Salary = {result[2]}\n Avg Salary = {result[3]}\n Gender = {result[4]} \n Count = {result[5]}\n");
+                            output = $"Total Salary = {result[0]}\n Max Salary = {result[1]}\n Min Salary = {result[2]}\n Avg Salary = {result[3]}\n Gender = {result[4]} \n Count = {result[5]}\n";
+                        }
+                        //close the reader object
+                        result.Close();
+                    }
+                    
+                }
+               
+            }
+            catch (Exception ex)
+            {
+
+                Console.WriteLine(ex.Message);
+                output = "Unsuccessfull";
+            }
+            finally
+            {
+                //close the connection
+                connection.Close();
+            }
+            return output;
+        }
     }
 }
