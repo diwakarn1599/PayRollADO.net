@@ -19,6 +19,9 @@ namespace PayRollAdo.net
         public double taxablePay { get; set; }
         public double incomeTax { get; set; }
         public double netPay { get; set; }
+        public int companyId { get; set; }
+
+        public string companyName { get; set; }
 
     }
 }

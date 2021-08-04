@@ -9,6 +9,7 @@ namespace PayrollTest
     {
         EmployeeRepository repository;
         EmployeeModel model;
+        EmployeeRepoER erRepo;
 
         /// <summary>
         /// Method to initialize objects
@@ -18,6 +19,7 @@ namespace PayrollTest
         {
             repository = new EmployeeRepository();
             model = new EmployeeModel();
+            erRepo = new EmployeeRepoER();
         }
         /// <summary>
         /// Methods to test stored procedure update
@@ -121,5 +123,105 @@ namespace PayrollTest
             }
 
         }
+
+        /// <summary>
+        /// Test method for retrieve all data based on er
+        /// </summary>
+        [TestMethod]
+        public void TestForRetrieveDataEr()
+        {
+            try
+            {
+                string actual, expected;
+                expected = "Success";
+                actual = erRepo.RetriveAllDataER(model);
+                Assert.AreEqual(actual, expected);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+        }
+        /// <summary>
+        /// test for Update data based on er
+        /// </summary>
+        [TestMethod]
+        public void TestForUpdateEr()
+        {
+            try
+            {
+                string actual, expected;
+                expected = "Updated";
+                actual = erRepo.UpdateDetailsER(model);
+                Assert.AreEqual(actual, expected);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+        }
+
+        /// <summary>
+        /// Reteive based on range er
+        /// </summary>
+        [TestMethod]
+        public void TestForRetrieveUsingRangeEr()
+        {
+            try
+            {
+                string actual, expected;
+                expected = "Success";
+                actual = erRepo.RetreiveBasedOnRangeEr(model);
+                Assert.AreEqual(actual, expected);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+        }
+
+        /// <summary>
+        /// test aggregate function based on er male
+        /// </summary>
+        [TestMethod]
+        public void TestForAggregateFunctionsMaleEr()
+        {
+            try
+            {
+                string actual, expected;
+                expected = "Success";
+                actual = erRepo.AggregateFunctionsEr("M");
+                Assert.AreEqual(actual, expected);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+        }
+        /// <summary>
+        /// test aggregate function based on er female
+        /// </summary>
+        [TestMethod]
+        public void TestForAggregateFunctionsFemaleEr()
+        {
+            try
+            {
+                string actual, expected;
+                expected = "Success";
+                actual = erRepo.AggregateFunctionsEr("F");
+                Assert.AreEqual(actual, expected);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+        }
+
+
     }
 }
