@@ -245,6 +245,26 @@ namespace PayrollTest
 
         }
 
+        /// <summary>
+        /// Test For Deelete cascade
+        /// </summary>
+        [TestMethod]
+        public void TestForDeleteCascade()
+        {
+            try
+            {
+                string actual, expected;
+                expected = "Update 1 rows";
+                actual = transations.DeleteCascade();
+                Assert.AreEqual(actual, expected);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+        }
+
 
     }
 }
