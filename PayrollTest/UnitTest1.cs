@@ -266,5 +266,65 @@ namespace PayrollTest
         }
 
 
+        /// <summary>
+        /// Test For add column
+        /// </summary>
+        [TestMethod]
+        public void TestForAddIsActiveColumn()
+        {
+            try
+            {
+                string actual, expected;
+                expected = "Success";
+                actual = transations.AddIsActive();
+                Assert.AreEqual(actual, expected);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+        }
+        /// <summary>
+        /// Test For update audit
+        /// </summary>
+        [TestMethod]
+        public void TestForAudit()
+        {
+            try
+            {
+                string actual, expected;
+                expected = "Success";
+                actual = transations.ListForAudit(1);
+                Assert.AreEqual(actual, expected);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+        }
+
+        /// <summary>
+        /// Test For retreive all data transaction
+        /// </summary>
+        [TestMethod]
+        public void TestForRetreiveAllDataTransaction()
+        {
+            try
+            {
+                string actual, expected;
+                expected = "Success";
+                actual = transations.RetriveAllData();
+                Assert.AreEqual(actual, expected);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+        }
+
+
     }
 }
