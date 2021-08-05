@@ -10,6 +10,7 @@ namespace PayrollTest
         EmployeeRepository repository;
         EmployeeModel model;
         EmployeeRepoER erRepo;
+        PayrollTransactions transations;
 
         /// <summary>
         /// Method to initialize objects
@@ -20,6 +21,7 @@ namespace PayrollTest
             repository = new EmployeeRepository();
             model = new EmployeeModel();
             erRepo = new EmployeeRepoER();
+            transations = new PayrollTransactions();
         }
         /// <summary>
         /// Methods to test stored procedure update
@@ -213,6 +215,27 @@ namespace PayrollTest
                 string actual, expected;
                 expected = "Success";
                 actual = erRepo.AggregateFunctionsEr("F");
+                Assert.AreEqual(actual, expected);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+        }
+
+
+        /// <summary>
+        /// Test For Insert Into Table Transaction
+        /// </summary>
+        [TestMethod]
+        public void TestForInsertIntoTableTransaction()
+        {
+            try
+            {
+                string actual, expected;
+                expected = "Success";
+                actual = transations.InsertIntoTableUsingTransaction();
                 Assert.AreEqual(actual, expected);
             }
             catch (Exception ex)
