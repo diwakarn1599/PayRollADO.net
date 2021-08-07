@@ -326,5 +326,26 @@ namespace PayrollTest
         }
 
 
+        /// <summary>
+        /// Test For retreive all data without using thread
+        /// </summary>
+        [TestMethod]
+        public void TestForRetreiveWithoutUsingThread()
+        {
+            try
+            {
+                string actual, expected;
+                expected = "success";
+                actual = transations.RetreiveWithoutUsingThread();
+                Assert.AreEqual(actual, expected);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+        }
+
+
     }
 }

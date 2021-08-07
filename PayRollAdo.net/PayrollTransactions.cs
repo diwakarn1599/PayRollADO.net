@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Text;
 
 namespace PayRollAdo.net
@@ -265,7 +266,32 @@ namespace PayRollAdo.net
             }
             return output;
         }
-
+        /// <summary>
+        /// method to record time to retreive data without using thread
+        /// </summary>
+        /// <returns></returns>
+        public string RetreiveWithoutUsingThread()
+        {
+            string output = string.Empty;
+            try
+            {
+                //object for stopwatch
+                Stopwatch stopWatch = new Stopwatch();
+                //start the stopwatch
+                stopWatch.Start();
+                RetriveAllData();
+                //stop stopwatch
+                stopWatch.Stop();
+                Console.WriteLine($"Duration : {stopWatch.ElapsedMilliseconds} milliseconds");
+                output = "success";
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                output = "unsuccessfull";
+            }
+            return output;
+        }
         /// <summary>
         /// Print details
         /// </summary>
