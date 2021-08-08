@@ -345,6 +345,25 @@ namespace PayrollTest
             }
 
         }
+        /// <summary>
+        /// Test Method to retrreive data using threads ==> tasks
+        /// </summary>
+        [TestMethod]
+        public void TestForRetreiveUsingThread()
+        {
+            try
+            {
+                string actual, expected;
+                expected = "success";
+                actual = transations.RetreiveUsingThread();
+                Assert.AreEqual(actual, expected);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+        }
 
 
     }
