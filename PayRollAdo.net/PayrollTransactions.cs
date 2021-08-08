@@ -320,6 +320,34 @@ namespace PayRollAdo.net
             return output;
         }
         /// <summary>
+        /// method to retrreive data using thread synchronisation
+        /// </summary>
+        /// <returns></returns>
+        public string RetreiveUsingThreadSynchronisation()
+        {
+            string output = string.Empty;
+            try
+            {
+                //object for stopwatch
+                Stopwatch stopWatch = new Stopwatch();
+                //start the stopwatch
+                stopWatch.Start();
+                RetriveAllData();
+                //stop stopwatch
+                stopWatch.Stop();
+                Console.WriteLine($"Duration : {stopWatch.ElapsedMilliseconds} milliseconds");
+                output = "success";
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                output = "unsuccessfull";
+            }
+            return output;
+        }
+
+
+        /// <summary>
         /// Print details
         /// </summary>
         /// <param name="result"></param>
@@ -349,8 +377,15 @@ namespace PayRollAdo.net
                 //creating the new tasks to add to list
                 Task task = new Task(() =>
                 {
-                    listOfEmployees.Add(model);
-                    Console.WriteLine($"{model.isActive},{model.empId},{model.name},{model.basicPay},{model.startDate},{model.gender},{model.department},{model.phoneNumber},{model.address},{model.deductions},{model.taxablePay},{model.incomeTax},{model.netPay},{model.companyId},{model.companyName}\n");
+                    //using lock for synchronization
+                    lock (this)
+                    {
+                        Console.WriteLine($"Adding :{model.name}");
+                        listOfEmployees.Add(model);
+                        Console.WriteLine($"Added :{model.name}");
+                    }
+                    
+                    //Console.WriteLine($"{model.isActive},{model.empId},{model.name},{model.basicPay},{model.startDate},{model.gender},{model.department},{model.phoneNumber},{model.address},{model.deductions},{model.taxablePay},{model.incomeTax},{model.netPay},{model.companyId},{model.companyName}\n");
                 });
                 //start the task\
                 task.Start();

@@ -364,6 +364,25 @@ namespace PayrollTest
             }
 
         }
+        /// <summary>
+        /// Test method to retreive data by using thread synchronization
+        /// </summary>
+        [TestMethod]
+        public void TestForRetreiveUsingThreadSynchronisation()
+        {
+            try
+            {
+                string actual, expected;
+                expected = "success";
+                actual = transations.RetreiveUsingThreadSynchronisation();
+                Assert.AreEqual(actual, expected);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+        }
 
 
     }
